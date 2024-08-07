@@ -124,8 +124,8 @@
     <div class="field-info">
       <?php
         $attrs = array();
-        $attrs['value'] = (isset($cadre_authenticatos[0]['CadreAuthenticator']['email_type'])
-                           ? $cadre_authenticatos[0]['CadreAuthenticator']['email_type']
+        $attrs['value'] = (isset($cadre_authenticators[0]['CadreAuthenticator']['email_type'])
+                           ? $cadre_authenticators[0]['CadreAuthenticator']['email_type']
                            : "");
         $attrs['empty'] = true;
 
@@ -138,7 +138,7 @@
             print $this->Form->error('email_type');
           }
         } else {
-          print _txt('en.identifier.type', null, filter_var($cadre_authenticatos[0]['CadreAuthenticator']['email_type'],FILTER_SANITIZE_SPECIAL_CHARS));
+          print _txt('en.identifier.type', null, filter_var($cadre_authenticators[0]['CadreAuthenticator']['email_type'],FILTER_SANITIZE_SPECIAL_CHARS));
         }
       ?>
     </div>
@@ -149,7 +149,7 @@
       <div class="field-desc"><?php print _txt('pl.cadreauthenticator.minlen.desc'); ?></div>
     </div>
     <div class="field-info">
-      <?php print ($e ? $this->Form->input('min_length') : filter_var($cadre_authenticatos[0]['CadreAuthenticator']['min_length'],FILTER_SANITIZE_SPECIAL_CHARS)); ?>
+      <?php print ($e ? $this->Form->input('min_length') : filter_var($cadre_authenticators[0]['CadreAuthenticator']['min_length'],FILTER_SANITIZE_SPECIAL_CHARS)); ?>
     </div>
   </li>
   <li>
@@ -158,7 +158,7 @@
       <div class="field-desc"><?php print _txt('pl.cadreauthenticator.maxlen.desc'); ?></div>
     </div>
     <div class="field-info">
-      <?php print ($e ? $this->Form->input('max_length') : filter_var($cadre_authenticatos[0]['CadreAuthenticator']['max_length'],FILTER_SANITIZE_SPECIAL_CHARS)); ?>
+      <?php print ($e ? $this->Form->input('max_length') : filter_var($cadre_authenticators[0]['CadreAuthenticator']['max_length'],FILTER_SANITIZE_SPECIAL_CHARS)); ?>
     </div>
   </li>
   <li>
@@ -184,7 +184,7 @@
       <div class="field-desc"><?php print _txt('pl.cadreauthenticator.ssr.validity.desc'); ?></div>
     </div>
     <div class="field-info">
-      <?php print ($e ? $this->Form->input('ssr_validity', array('default' => 10)) : filter_var($cadre_authenticatos[0]['CadreAuthenticator']['ssr_validity'],FILTER_SANITIZE_SPECIAL_CHARS)); ?>
+      <?php print ($e ? $this->Form->input('ssr_validity', array('default' => 10)) : filter_var($cadre_authenticators[0]['CadreAuthenticator']['ssr_validity'],FILTER_SANITIZE_SPECIAL_CHARS)); ?>
     </div>
   </li>
   <li>
@@ -198,8 +198,8 @@
     <div class="field-info">
       <?php
         $attrs = array();
-        $attrs['value'] = (!empty($cadre_authenticatos[0]['CadreAuthenticator']['co_message_template_id'])
-                          ? $cadre_authenticatos[0]['CadreAuthenticator']['co_message_template_id']
+        $attrs['value'] = (!empty($cadre_authenticators[0]['CadreAuthenticator']['co_message_template_id'])
+                          ? $cadre_authenticators[0]['CadreAuthenticator']['co_message_template_id']
                           : null);
         // This should be true, but since we don't validate based on multiple
         // fields yet (required only if SSR is enabled) this will prevent an
@@ -226,7 +226,7 @@
       <div class="field-desc"><?php print _txt('pl.cadreauthenticator.ssr.redirect.desc'); ?></div>
     </div>
     <div class="field-info">
-      <?php print ($e ? $this->Form->input('redirect_on_success_ssr') : filter_var($cadre_authenticatos[0]['CadreAuthenticator']['redirect_on_success_ssr'],FILTER_SANITIZE_SPECIAL_CHARS)); ?>
+      <?php print ($e ? $this->Form->input('redirect_on_success_ssr') : filter_var($cadre_authenticators[0]['CadreAuthenticator']['redirect_on_success_ssr'],FILTER_SANITIZE_SPECIAL_CHARS)); ?>
     </div>
   </li>
   <li>
@@ -239,8 +239,8 @@
     <div class="field-info">
       <?php
         $rattrs = array();
-        $rattrs['value'] = (!empty($cadre_authenticatos[0]['CadreAuthenticator']['username_reminder_message_template_id'])
-                          ? $cadre_authenticatos[0]['CadreAuthenticator']['username_reminder_message_template_id']
+        $rattrs['value'] = (!empty($cadre_authenticators[0]['CadreAuthenticator']['username_reminder_message_template_id'])
+                          ? $cadre_authenticators[0]['CadreAuthenticator']['username_reminder_message_template_id']
                           : null);
         $rattrs['empty'] = true;
         $rattrs['onChange'] = "fields_update_gadgets();";

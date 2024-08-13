@@ -371,7 +371,8 @@ class CadreAuthenticator extends AuthenticatorBackend {
 
     // Find the current user object, if any.
     $args = array();
-    $args['User']['email'] = $email;
+    $args['conditions']['User.email'] = $email;
+    $args['contain']  = false;
 
     $userObj = $User->find('first', $args);
 

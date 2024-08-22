@@ -50,6 +50,7 @@ $cm_cadre_authenticator_texts['en_US'] = array(
   'er.cadreauthenticator.ssr.notfound'   => 'No verified email address was found for "%1$s"',
   'er.cadreauthenticator.token.expired'  => 'Reset token expired',
   'er.cadreauthenticator.token.notfound' => 'Reset token not found',
+  'er.cadreauthenticator.delete.fail'    => 'Error deleting password for %1$s',
   
   // Plugin texts
   'pl.cadreauthenticator.email_type'     => 'Email Type',

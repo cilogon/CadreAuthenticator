@@ -469,33 +469,6 @@ class CadreAuthenticator extends AuthenticatorBackend {
   }
 
   /**
-   * Generate a random string, using a cryptographically secure 
-   * pseudorandom number generator (random_int)
-   *
-   * This function requires PHP 7+.
-   * 
-   * @param int $length      How many characters do we want?
-   * @param string $keyspace A string of all possible characters to select from
-   * @return string
-   */
-
-  function random_str(int $length = 64, string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
-      if ($length < 1) {
-          throw new RangeException("Length must be a positive integer");
-      }
-
-      $pieces = [];
-
-      $max = mb_strlen($keyspace, '8bit') - 1;
-
-      for ($i = 0; $i < $length; ++$i) {
-          $pieces []= $keyspace[random_int(0, $max)];
-      }
-
-      return implode('', $pieces);
-  }
-
-  /**
    * Reset Authenticator data for a CO Person.
    *
    * @since  COmanage Registry v4.1.0
@@ -506,11 +479,8 @@ class CadreAuthenticator extends AuthenticatorBackend {
    */
   
   public function reset($coPersonId, $actorCoPersonId, $actorApiUserId=null) {
-    // Perform the reset by reseting the password to a long random string.
-
-    $args = array();
-    $args['conditions']['Cadre.cadre_authenticator_id'] = $this->pluginCfg['CadreAuthenticator']['id'];
-    $args['conditions']['Cadre.co_person_id'] = $coPersonId;
+    // Reset is defined here to delete the entry in the SQL server
+    // for the user and then delete the authenticators.
 
     // Find the email.
     $emailType = $this->pluginCfg['CadreAuthenticator']['email_type'];
@@ -552,32 +522,26 @@ class CadreAuthenticator extends AuthenticatorBackend {
 
     $User->clear();
 
-    // Find the user object.
+    // Delete the user object.
     $args = array();
-    $args['User']['email'] = $email;
+    $args['conditions']['User.email'] = $email;
 
-    $userObj = $User->find('first', $args);
-
-    if(empty($userObj)) {
-      $msg = _txt('pl.cadreauthenticator.email.not.found', array($email));
-      $this->log($msg);
-      throw new RuntimeException($msg);
-    }
-
-    $newRandomPassword = $this->random_str();
-
-    // Change the password.
     try {
-      $userObj['User']['passwordhash'] = password_hash($newRandomPassword, PASSWORD_DEFAULT);
-      $userObj['User']['modified'] = date("Y-m-d H:i:s");
-      // TODO check save
-      $User->save($userObj, false);
+      $User->deleteAll($args['conditions']);
     } catch (Exception $e) {
-      $msg = "Unable to set password for email $email: ";
-      $msg = $msg . print_r($e->getMessage(), true);
+      $msg = _txt('er.cadreauthenticator.delete.fail', array($email));
+      $msg = $msg . ": " . print_r($e->getMessage(), true);
       $this->log($msg);
       throw new RuntimeException($msg);
     }
+
+    // Delete the authenticators.
+    $args = array();
+    $args['conditions']['Cadre.cadre_authenticator_id'] = $this->pluginCfg['CadreAuthenticator']['id'];
+    $args['conditions']['Cadre.co_person_id'] = $coPersonId;
+
+    // Note deleteAll will not trigger callbacks by default.
+    $this->Cadre->deleteAll($args['conditions']);
     
     // And record some history
 
